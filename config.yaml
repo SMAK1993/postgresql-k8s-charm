@@ -2,36 +2,17 @@
   "postgresql-image":
     "type": "string"
     "description": "Container image for postgresql"
-    "default": "docker.io/bitnami/postgresql:11.7.0-debian-10-r82"
+    "default": "docker.io/bitnami/postgresql:11.7.0-debian-10-r64"
+    # "default": "docker.io/bitnami/postgresql:12-debian-10"
     # "default": "rocks.canonical.com:443"
   "postgresql-pullPolicy":
     "type": "string"
     "description": "Pull policy for  postgresql container image"
     "default": "IfNotPresent"
-  "postgresqlImage-pullSecrets":
-    "type": "string"
-    "description": "Specify docker-registry secret names as an array"
-    "default": "[]"
   "postgresql-debug":
     "type": "string"
     "description": "Specify if debug logs should be enabled (true or false)"
     "default": "true"
-  "postgresql-updateStrategyType":
-    "type": "string"
-    "description": "Statefulset update strategy policy"
-    "default": "RollingUpdate"
-  "postgresql-securityContext-enabled":
-    "type": "boolean"
-    "description": "Enable security context for Postgresql container"
-    "default": true
-  "postgresql-securityContext-fsGroup":
-    "type": "string"
-    "description": "Group ID for the Postgresql container filesystem"
-    "default": "1001"
-  "postgresql-securityContext-runAsUser":
-    "type": "int"
-    "description": "User ID for the Postgresql container"
-    "default": 1001
   "postgresql-username":
     "type": "string"
     "description": "Postgresql username"
@@ -44,60 +25,23 @@
     "type": "string"
     "description": "Postgresql database"
     "default": "postgres"
-  "postgresql-replication-user":
+  "postgresql-repmgr-username":
     "type": "string"
-    "description": "Postgresql replication username"
-    "default": "repl_user"
-  "postgresql-replication-password":
+    "description": "Postgresql repmgr username"
+    "default": "repmgr"
+  "postgresql-repmgr-password":
     "type": "string"
-    "description": "Postgresql replication password"
-    "default": "repl_password"
-  "postgresql-replication-applicationName":
+    "description": "Postgresql repmgr password"
+    "default": "repmgr"
+  "postgresql-repmgr-database":
     "type": "string"
-    "description": "Cluster application name. Useful for advanced replication settings"
-    "default": "my_application"
-  "postgresql-configuration":
+    "description": "PostgreSQL repmgr database"
+    "default": "repmgr"
+  "metrics-image":
     "type": "string"
-    "description": "Runtime Config Parameters for Postgresql"
-    "default": ""
-  "postgresql-pgHbaConfiguration":
+    "description": "Container image for PostgreSQL Prometheus exporter"
+    "default": "docker.io/bitnami/postgres-exporter:0.8.0-debian-10-r66"
+  "metrics-pullPolicy":
     "type": "string"
-    "description": "Contents of pg_hba.conf"
-    "default": ""
-  "postgresql-configurationConfigMap":
-    "type": "string"
-    "description": |
-      ConfigMap with the Postgresql configuration files
-      (Note: Overrides postgresql-replicationConfiguration, postgresql-configuration and postgresql-pgHbaConfiguration)
-    "default": ""
-  "postgresql-extendedConf":
-    "type": "string"
-    "description": "Extended Postgresql Configuration (appended to main or default configuration)"
-    "default": ""
-  "postgresql-extendedConfConfigMap":
-    "type": "string"
-    "description": |
-      ConfigMap with the extended Postgresql configuration files 
-      (Note: Overrides postgresql-extendedConf)
-    "default": ""
-  "postgresql-initdbScripts":
-    "type": "string"
-    "description": "Dictionary of initdb scripts"
-    "default": ""
-  "postgresql-initdbScriptsConfigMap":
-    "type": "string"
-    "description": |
-      ConfigMap with the initdb scripts (Note: Overrides initdbScripts)
-      The value is evaluated as a template
-    "default": ""
-  "postgresql-initdbScriptsSecret":
-    "type": "string"
-    "description": |
-      Secret with initdb scripts that contain sensitive information 
-      (Note: can be used with initdbScriptsCM or initdbScripts)
-      The value is evaluated as a template
-    "default": ""
-  "persistence-enabled":
-    "type": "boolean"
-    "description": "Enable data persistence"
-    "default": true
+    "description": "Pull policy for  PostgreSQL Prometheus exporter"
+    "default": "IfNotPresent"
