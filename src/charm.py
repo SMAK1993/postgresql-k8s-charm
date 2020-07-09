@@ -68,8 +68,8 @@ class PostgresCharm(CharmBase):
             'securityContext': {'fsGroup': 1001},
             'containers': [{
                 'name': 'postgresql',
-                'image': 'docker.io/bitnami/postgresql:11.7.0-debian-10-r64',
-                # 'image': self.model.config['postgresql-image'],
+                # 'image': 'docker.io/bitnami/postgresql:11.7.0-debian-10-r64',
+                'image': self.model.config['postgresql-image'],
                 'imagePullPolicy': 'IfNotPresent',
                 'ports': [{'containerPort': 5432,
                            'name': 'postgresql',

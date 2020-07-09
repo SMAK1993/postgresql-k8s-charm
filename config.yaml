@@ -4,7 +4,7 @@
     "description": "Container image for postgresql"
     "default": "docker.io/bitnami/postgresql:11.7.0-debian-10-r64"
     # "default": "docker.io/bitnami/postgresql:12-debian-10"
-    # "default": "rocks.canonical.com:443"
+    # "default": "rocks.canonical.com:443..."
   "postgresql-pullPolicy":
     "type": "string"
     "description": "Pull policy for  postgresql container image"
