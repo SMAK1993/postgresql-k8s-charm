@@ -1,7 +1,7 @@
 from ops.framework import Object, StoredState
 
 
-class PostgresRepmgr(Object):
+class PostgresCluster(Object):
     state = StoredState()
 
     def __init__(self, charm, relation_name):

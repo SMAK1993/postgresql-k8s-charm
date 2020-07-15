@@ -19,49 +19,20 @@
   - "databases"
 "series":
   - "kubernetes"
-"requires":
-  "standby":
-    "interface": "repmgr"
-    "optional": !!bool "true"
 "provides":
-  "nrpe-external-master":
-    "interface": "nrpe-external-master"
-    "scope": "container"
   "db":
     "interface": "pgsql"
     "optional": !!bool "true"
   "db-admin":
     "interface": "pgsql"
     "optional": !!bool "true"
-  "syslog":
-    "interface": "syslog"
-    "optional": !!bool "true"
-  "master":
-    "interface": "pgreplication"
-    "optional": !!bool "true"
-  # Can local-monitors be dropped? Did it ever get used?
-  "local-monitors":
-    "interface": "local-monitors"
-    "scope": "container"
-  "data":
-    "interface": "block-storage"
-    "scope": "container"
-    "optional": !!bool "true"
-  # We do not yet support slaving a PostgreSQL service to another
-  # PostgreSQL service.
-  # replica:
-  #   interface: pgreplication
-  #   optional: true
-  "primary":
-    "interface": "repmgr"
-    "optional": !!bool "true"
 "peers":
   "coordinator":
     "interface": "coordinator"
   "replication":
     "interface": "pgpeer"
-  # "cluster":
-  #     "interface": "cluster"
+  "cluster":
+      "interface": "cluster"
 "display-name": "PostgreSQL"
 "deployment":
   "type": "stateful"
@@ -71,22 +42,3 @@
     "type": "filesystem"
     "location": "/bitnami/postgresql/"
     "minimum-size": 8G
-  # "repmgr":
-  #   "type": "filesystem"
-  #   "location": "/bitnami/repmgr/"
-  #   "minimum-size": 8G  
-#   "pgdata":
-#     "type": "filesystem"
-#     "description": >
-#       Database data files (ie. $PGDATA). Stores all of your data and
-#       indexes. Mainly random access reads and writes.
-#     # We need a small minimum-size for testing.
-#     "minimum-size": "5M"
-#     "location": "/srv/pgdata"
-#     # Bug #1504658 means only optional storage.
-#     "multiple":
-#       "range": "0-1"
-    # "resources":
-#   "postgres_image":
-#     "type": oci-image
-#     "description": Image used for postgres pod.
