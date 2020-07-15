@@ -1,5 +1,5 @@
 # Source: postgresql-ha/templates/postgresql/statefulset.yaml
-# version: 2
+# version: 3
 securityContext:
   fsGroup: 1001
 containers:
@@ -8,7 +8,7 @@ containers:
     imagePullPolicy: "IfNotPresent"
     securityContext:
       runAsUser: 1001
-    config:
+    envConfig:
       BITNAMI_DEBUG: "true"
       # PostgreSQL configuration
       POSTGRESQL_VOLUME_DIR: "/bitnami/postgresql"
@@ -60,15 +60,15 @@ containers:
       timeoutSeconds: 5
       successThreshold: 1
       failureThreshold: 6
-    # files:
+    # volumeConfig:
     #   - name: data
     #     mountPath: /bitnami/postgresql
   - name: metrics
     image: docker.io/bitnami/postgres-exporter:0.8.0-debian-10-r66
     imagePullPolicy: "IfNotPresent"
-    securityContext:
-      runAsUser: 1001
-    config:
+    # securityContext:
+    #   runAsUser: 1001
+    envConfig:
       DATA_SOURCE_URI: "127.0.0.1:5432/postgres?sslmode=disable"
       DATA_SOURCE_PASS: "postgres"
       DATA_SOURCE_USER: "postgres"
@@ -94,3 +94,109 @@ containers:
       timeoutSeconds: 5
       successThreshold: 1
       failureThreshold: 6
+
+# version: 3
+# containers:
+#   - name: postgresql
+#     image: docker.io/bitnami/postgresql-repmgr:11.7.0-debian-10-r64
+#     imagePullPolicy: "IfNotPresent"
+#     envConfig:
+#       BITNAMI_DEBUG: "true"
+#       # PostgreSQL configuration
+#       POSTGRESQL_VOLUME_DIR: "/bitnami/postgresql"
+#       PGDATA: "/bitnami/postgresql/data"
+#       POSTGRES_USER: "postgres"
+#       POSTGRES_PASSWORD: "postgres"
+#       POSTGRES_DB: "postgres"
+#       # Repmgr configuration
+#       REPMGR_UPGRADE_EXTENSION: "no"
+#       REPMGR_PGHBA_TRUST_ALL: "no"
+#       REPMGR_MOUNTED_CONF_DIR: "/bitnami/repmgr/conf"
+#       MY_POD_NAME: "postgresql-0"
+#       REPMGR_NODE_NETWORK_NAME: "$(MY_POD_NAME).postgresql-endpoints.postgresql.svc.cluster.local"
+#       # MY_POD_NAME: "postgresql-standby-0"
+#       # REPMGR_NODE_NETWORK_NAME: "$(MY_POD_NAME).postgresql-standby-endpoints.postgresql.svc.cluster.local"
+#       REPMGR_NODE_NAME: "$(MY_POD_NAME)"
+#       REPMGR_PRIMARY_HOST: "postgresql-0.postgresql-endpoints.postgresql.svc.cluster.local"
+#       REPMGR_PARTNER_NODES: "postgresql-0.postgresql-endpoints.postgresql.svc.cluster.local,postgresql-standby-0.postgresql-standby-endpoints.postgresql.svc.cluster.local"
+#       REPMGR_LOG_LEVEL: "NOTICE"
+#       REPMGR_CONNECT_TIMEOUT: "5"
+#       REPMGR_RECONNECT_ATTEMPTS: "3"
+#       REPMGR_RECONNECT_INTERVAL: "5"
+#       REPMGR_USERNAME: "repmgr"
+#       REPMGR_PASSWORD: "repmgr"
+#       REPMGR_DATABASE: "repmgr"
+#     ports:
+#       - name: postgresql
+#         containerPort: 5432
+#         protocol: TCP
+#   - name: metrics
+#     image: docker.io/bitnami/postgres-exporter:0.8.0-debian-10-r66
+#     imagePullPolicy: "IfNotPresent"
+#     envConfig:
+#       DATA_SOURCE_URI: "127.0.0.1:5432/postgres?sslmode=disable"
+#       DATA_SOURCE_PASS: "postgres"
+#       DATA_SOURCE_USER: "postgres"
+#     ports:
+#       - name: metrics
+#         containerPort: 9187
+#         protocol: TCP
+
+#         {
+#             "version": 3, 
+#             "containers": [
+#               {
+#                 "name": "postgresql"
+#                 "image": "docker.io/bitnami/postgresql-repmgr:11.7.0-debian-10-r64", 
+#                 "imagePullPolicy": "IfNotPresent", 
+#                 "ports": [
+#                   {
+#                     "protocol": "TCP", 
+#                     "name": "postgresql", 
+#                     "containerPort": 5432
+#                   }
+#                 ], 
+#                 "envConfig": {
+#                   "REPMGR_PARTNER_NODES": "postgresql-0.postgresql-endpoints.postgresql.svc.cluster.local,postgresql-standby-0.postgresql-standby-endpoints.postgresql.svc.cluster.local", 
+#                   "REPMGR_RECONNECT_INTERVAL": "5", 
+#                   "REPMGR_PASSWORD": "repmgr", 
+#                   "POSTGRES_PASSWORD": "postgres", 
+#                   "MY_POD_NAME": "postgresql-0", 
+#                   "POSTGRES_DB": "postgres", 
+#                   "PGDATA": "/bitnami/postgresql/data", 
+#                   "REPMGR_UPGRADE_EXTENSION": "no", 
+#                   "REPMGR_NODE_NETWORK_NAME": "$(MY_POD_NAME).postgresql-endpoints.postgresql.svc.cluster.local", 
+#                   "REPMGR_DATABASE": "repmgr", 
+#                   "REPMGR_NODE_NAME": "$(MY_POD_NAME)", 
+#                   "REPMGR_RECONNECT_ATTEMPTS": "3", 
+#                   "POSTGRES_USER": "postgres", 
+#                   "REPMGR_LOG_LEVEL": "NOTICE", 
+#                   "BITNAMI_DEBUG": "true", 
+#                   "REPMGR_CONNECT_TIMEOUT": "5", 
+#                   "REPMGR_MOUNTED_CONF_DIR": "/bitnami/repmgr/conf", 
+#                   "REPMGR_PRIMARY_HOST": "postgresql-0.postgresql-endpoints.postgresql.svc.cluster.local", 
+#                   "POSTGRESQL_VOLUME_DIR": "/bitnami/postgresql", 
+#                   "REPMGR_PGHBA_TRUST_ALL": "no", 
+#                   "REPMGR_USERNAME": "repmgr"
+#                 }, 
+#               }, 
+#               {
+#                 "name": "metrics"
+#                 "image": "docker.io/bitnami/postgres-exporter:0.8.0-debian-10-r66", 
+#                 "imagePullPolicy": "IfNotPresent", 
+#                 "ports": [
+#                   {
+#                     "protocol": "TCP", 
+#                     "name": "metrics", 
+#                     "containerPort": 9187
+#                   }
+#                 ], 
+#                 "envConfig": {
+#                   "DATA_SOURCE_URI": "127.0.0.1:5432/postgres?sslmode=disable", 
+#                   "DATA_SOURCE_PASS": "postgres", 
+#                   "DATA_SOURCE_USER": "postgres"
+#                 }, 
+#               }
+#             ]
+#           }
+          

@@ -19,6 +19,10 @@
   - "databases"
 "series":
   - "kubernetes"
+"requires":
+  "standby":
+    "interface": "repmgr"
+    "optional": !!bool "true"
 "provides":
   "nrpe-external-master":
     "interface": "nrpe-external-master"
@@ -48,11 +52,16 @@
   # replica:
   #   interface: pgreplication
   #   optional: true
+  "primary":
+    "interface": "repmgr"
+    "optional": !!bool "true"
 "peers":
   "coordinator":
     "interface": "coordinator"
   "replication":
     "interface": "pgpeer"
+  # "cluster":
+  #     "interface": "cluster"
 "display-name": "PostgreSQL"
 "deployment":
   "type": "stateful"
@@ -62,10 +71,10 @@
     "type": "filesystem"
     "location": "/bitnami/postgresql/"
     "minimum-size": 8G
-  "repmgr":
-    "type": "filesystem"
-    "location": "/bitnami/repmgr/"
-    "minimum-size": 8G  
+  # "repmgr":
+  #   "type": "filesystem"
+  #   "location": "/bitnami/repmgr/"
+  #   "minimum-size": 8G  
 #   "pgdata":
 #     "type": "filesystem"
 #     "description": >
